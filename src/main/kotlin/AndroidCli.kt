@@ -15,7 +15,7 @@ private class AndroidCli : CliktCommand() {
     override fun run() = Unit
 }
 
-private class ParseUnreleadChangelog : CliktCommand(help = "Parses the unreleased changeg .md file") {
+private class ParseUnreleasedChangelog : CliktCommand(help = "Parses the unreleased changeg .md file") {
     private val changeLogFile by argument(help = "Path of file").file(mustBeReadable = true, mustExist = true)
 
     override fun run() {
@@ -45,7 +45,7 @@ private class UnitTestSelected : CliktCommand(help = "Applies unit tests only in
     }
 }
 
-private fun subCommands() = listOf(ParseUnreleadChangelog(), KtlintSelected(), UnitTestSelected())
+private fun subCommands() = listOf(ParseUnreleasedChangelog(), KtlintSelected(), UnitTestSelected())
 
 fun main(args: Array<String>) = AndroidCli()
     .subcommands(subCommands())
