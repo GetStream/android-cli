@@ -17,10 +17,10 @@ fun List<String>.ktlintCommand(): String = filterKtlintModules().generateGradleC
 fun List<String>.unitTestCommand(): String = filterUnitTestableModules().generateGradleCommand { "testDebug" }
 
 private fun List<String>.filterKtlintModules(): List<String> =
-    filter { module -> !optOutKtlintModules().contains(module) }
+    filterNot(optOutKtlintModules()::contains)
 
 private fun List<String>.filterUnitTestableModules(): List<String> =
-    filter { module -> optInUnitTestModules().contains(module) }
+    filter(optInUnitTestModules()::contains)
 
 private fun optOutKtlintModules() = listOf(
     "stream-chat-android-core",
