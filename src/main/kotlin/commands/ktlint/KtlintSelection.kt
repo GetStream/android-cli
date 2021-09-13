@@ -38,8 +38,5 @@ private fun optInUnitTestModules() = listOf(
 private fun List<String>.generateGradleCommand(commandFunction: (String) -> String): String {
     val command = joinToString(separator = " ") { module -> "$module:${commandFunction(module)}" }
 
-    return buildString {
-        append("./gradlew ")
-        append(command)
-    }
+    return "./gradlew $command"
 }
