@@ -60,4 +60,11 @@ android-cli ktlint-selected  build/dag-command/affected-modules.json
 
 The command works just like `ktlint-selected`, but it applies unit tests for the affected modules. 
 
+## Developing commands
+If you are developing new commands for this CLI, you can iterate in your commands using `run.sh`. As the exaple: 
+
+```
+./run.sh [COMMAND] [PARAMTERS]
+```
+
 
