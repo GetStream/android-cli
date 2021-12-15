@@ -7,9 +7,12 @@ import commands.changelog.markdown.parser.parseChangelogFile
 import commands.ktlint.ktlintCommand
 import commands.ktlint.parseModules
 import commands.ktlint.unitTestCommand
+import common.output.FilePrinter
 import common.output.StdoutPrinter
 import common.output.print
+import common.output.println
 import common.terminal.runCommand
+import java.io.File
 
 private class AndroidCli : CliktCommand() {
     override fun run() = Unit
@@ -19,9 +22,13 @@ private class ParseUnreleasedChangelog : CliktCommand(help = "Parses the unrelea
     private val changeLogFile by argument(help = "Path of file").file(mustBeReadable = true, mustExist = true)
 
     override fun run() {
-        parseChangelogFile(changeLogFile)
-            .clean()
-            .print(StdoutPrinter())
+        val document = parseChangelogFile(changeLogFile).clean()
+
+        FilePrinter("CHANGELOG_PARSED.md").use { printer ->
+            document.print(printer)
+        }
+
+        println("CHANGELOG_PARSED.md generated")
     }
 }
 
