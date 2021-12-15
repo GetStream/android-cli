@@ -10,10 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: ./run.sh parse-unreleased-changelog CHANGELOG.md
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "release.tar.gz,foo/*.txt"
-        bodyFile: "CHANGELOG_PARSED.md"
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Generate release file
+        run: ./run.sh parse-unreleased-changelog CHANGELOG.md
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "release.tar.gz,foo/*.txt"
+          bodyFile: "CHANGELOG_PARSED.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
