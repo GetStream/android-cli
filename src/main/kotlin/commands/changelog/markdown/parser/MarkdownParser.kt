@@ -5,19 +5,21 @@ import commands.changelog.model.Project
 import commands.changelog.model.Section
 import java.io.File
 
-fun parseReleaseDocument(file: File): Document {
-    return parseReleaseDocument(file.readLines())
+fun parseChangelogFile(file: File): Document {
+    return file.readLines()
+        .filterListSection()
+        .parseReleaseDocument()
 }
 
-fun parseReleaseDocument(lines: List<String>): Document {
+private fun List<String>.parseReleaseDocument(): Document {
     val document = Document(mutableListOf())
     var currentProjectSections = mutableListOf<Section>()
     var currentSectionLines = mutableListOf<String>()
 
-    lines.forEachIndexed { i, line ->
+    this.forEachIndexed { i, line ->
         when {
-            isStartOfProject(line) || i == lines.lastIndex -> {
-                if (i == lines.lastIndex) {
+            isStartOfProject(line) || i == this.lastIndex -> {
+                if (i == this.lastIndex) {
                     currentSectionLines.add(line)
                 }
 
@@ -46,10 +48,27 @@ fun isStartOfProject(line: String) = line.startsWith("##") && !line.startsWith("
 
 fun isStartOfSection(line: String) = line.startsWith("###")
 
-private fun printProject(project: Project) {
-    project.flatten().forEach(::println)
-}
+private fun List<String>.filterListSection(
+    start: String = "<!-- UNRELEASED START -->",
+    end: String = "<!-- UNRELEASED END -->"
+): List<String> {
+    var shouldAdd = false
 
-private fun printSection(section: Section) {
-    section.forEach(::println)
+    val filteredList = filter { line ->
+        if (line.trim() == start) {
+            shouldAdd = true
+        }
+
+        if (line.trim() == end) {
+            shouldAdd = false
+        }
+
+        shouldAdd
+    }
+
+    return if (!shouldAdd && filteredList.isNotEmpty()) {
+        filteredList
+    } else {
+        throw IllegalStateException("Could not find the start or end of unreleased section")
+    }
 }

@@ -3,7 +3,7 @@ import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.arguments.argument
 import com.github.ajalt.clikt.parameters.types.file
 import commands.changelog.markdown.clean
-import commands.changelog.markdown.parser.parseReleaseDocument
+import commands.changelog.markdown.parser.parseChangelogFile
 import commands.ktlint.ktlintCommand
 import commands.ktlint.parseModules
 import commands.ktlint.unitTestCommand
@@ -19,7 +19,7 @@ private class ParseUnreleasedChangelog : CliktCommand(help = "Parses the unrelea
     private val changeLogFile by argument(help = "Path of file").file(mustBeReadable = true, mustExist = true)
 
     override fun run() {
-        parseReleaseDocument(changeLogFile)
+        parseChangelogFile(changeLogFile)
             .clean()
             .print(StdoutPrinter())
     }
