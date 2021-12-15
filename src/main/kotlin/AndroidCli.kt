@@ -18,7 +18,7 @@ private class AndroidCli : CliktCommand() {
     override fun run() = Unit
 }
 
-private class ParseUnreleasedChangelog : CliktCommand(help = "Parses the unreleased changeg .md file") {
+private class ParseUnreleasedChangelog : CliktCommand(help = "Parses the unreleased changelog .md file") {
     private val changeLogFile by argument(help = "Path of file").file(mustBeReadable = true, mustExist = true)
 
     override fun run() {
