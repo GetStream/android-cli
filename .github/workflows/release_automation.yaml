@@ -13,7 +13,9 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Generate release file
-        run: ./gradlew --quiet "installDist" && "./build/install/android-cli/bin/android-cli" "parse-unreleased-changelog" "./../../../../CHANGELOG.md"
+        run: | 
+          ls
+          ./gradlew --quiet "installDist" && "./build/install/android-cli/bin/android-cli" "parse-unreleased-changelog" "./../../../../CHANGELOG.md"
       - name: Create release
         uses: ncipollo/release-action@v1
         with:
