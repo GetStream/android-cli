@@ -1,3 +1,5 @@
+> **This repository is archived and will be deleted.** It is no longer maintained.
+
 # Android-cli
 
 **Commands to help out in the release.**
